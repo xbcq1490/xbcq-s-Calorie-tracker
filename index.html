@@ -3,111 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Calorie Tracker AI</title>
+    <title>xbcq's Calorie tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5;
-            color: #1c1e21;
+            background-color: #121212; /* Dark background for body */
+            color: #E0E0E0; /* Light text color */
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to top for scrollable content */
+            align-items: flex-start;
             min-height: 100vh;
             text-align: center;
-            overscroll-behavior-y: contain; /* Prevent pull-to-refresh on mobile when camera is open */
+            overscroll-behavior-y: contain;
         }
 
         #appContainer {
-            background-color: white;
-            padding: 20px;
+            background-color: #1E1E1E; /* Darker container background */
+            padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 18px rgba(255, 235, 59, 0.08); /* Subtle yellow shadow */
             width: 100%;
             max-width: 600px;
             margin: 20px;
             box-sizing: border-box;
+        }
+        
+        .app-title {
+            color: #FFEB3B; /* Yellow accent for title */
+            font-size: 2.2em;
+            margin-bottom: 25px;
         }
 
         #apiKeySetup, #mainApp {
             padding: 10px;
         }
 
-        #apiKeySetup h2, #mainApp h2, #mainApp h3 {
-            color: #007bff; /* Primary color for headers */
+        #apiKeySetup h2, #mainApp h2, #mainApp h3, #mainApp h4 {
+            color: #FFEB3B; /* Yellow accent for headers */
         }
 
         #apiKeySetup input[type="password"], 
         #targetCaloriesInput {
-            width: calc(100% - 24px);
+            width: calc(100% - 26px);
             padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #ccd0d5;
-            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+            border-radius: 8px;
             font-size: 16px;
             box-sizing: border-box;
+            background-color: #333;
+            color: #E0E0E0;
+            font-family: 'Poppins', sans-serif;
+        }
+        #apiKeySetup input[type="password"]:focus, 
+        #targetCaloriesInput:focus {
+            border-color: #FFEB3B;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.3);
         }
 
-        #apiKeySetup button, 
-        #controls button, 
-        #setTargetButton {
-            padding: 12px 18px;
-            background-color: #007bff;
-            color: white;
+
+        button { /* General button styling */
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            padding: 12px 20px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
-            margin-top: 5px;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+        }
+        button:active {
+            transform: translateY(1px);
         }
 
-        #apiKeySetup button:hover, 
-        #controls button:hover, 
-        #setTargetButton:hover {
-            background-color: #0056b3;
+        /* Primary buttons */
+        #saveApiKeyButton, #scanButton, #setTargetButton {
+            background-color: #FFEB3B;
+            color: #121212; /* Dark text on yellow button */
+            font-weight: bold;
         }
+        #saveApiKeyButton:hover, #scanButton:hover, #setTargetButton:hover {
+            background-color: #FDD835; /* Slightly darker yellow on hover */
+            box-shadow: 0 2px 8px rgba(255, 235, 59, 0.2);
+        }
+
 
         #controls {
-            margin-top: 25px;
-            margin-bottom: 25px;
+            margin-top: 30px;
+            margin-bottom: 30px;
         }
 
         #scanButton {
             padding: 15px 30px;
             font-size: 18px;
-            background-color: #28a745; /* Green for scan button */
             width: 80%;
-            max-width: 300px;
+            max-width: 320px;
         }
-        #scanButton:hover {
-            background-color: #1e7e34;
-        }
-
+      
         #calorieDisplay {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         #calorieDisplay h2 {
             margin-top: 0;
             margin-bottom: 15px;
         }
-        #calorieDisplay p {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
+        #calorieDisplay p.calorie-text {
+            font-size: 1.3em;
+            font-weight: 500; /* Poppins medium */
+            color: #E0E0E0;
         }
-        #calorieDisplay p span#currentCalories {
-            color: #28a745; /* Green for current calories */
+        #calorieDisplay p.calorie-text span#currentCalories {
+            color: #FFEB3B; 
+            font-size: 1.5em;
+        }
+         #calorieDisplay p.calorie-text span#targetCalories {
+            font-size: 1.1em;
+            color: #aaa;
         }
 
+
         #calorieGaugeContainer {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+        
+        #lastScannedNutrients {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        #lastScannedNutrients h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        #lastScannedNutrients p {
+            margin: 5px 0;
+            font-size: 0.95em;
+            color: #ccc;
+        }
+        #lastScannedNutrients p strong {
+            color: #FFEB3B;
+        }
+        #lastScannedNutrients p span {
+            color: #E0E0E0;
+        }
+
 
         #foodLog {
             list-style-type: none;
@@ -115,18 +167,20 @@
             text-align: left;
             max-height: 200px;
             overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: 6px;
+            border: 1px solid #333;
+            border-radius: 8px;
             padding: 10px;
+            background-color: #2a2a2a;
         }
 
         #foodLog li {
-            background-color: #f8f9fa;
-            padding: 10px;
+            background-color: #333;
+            padding: 10px 12px;
             margin-bottom: 8px;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.9em;
-            border-left: 3px solid #007bff;
+            border-left: 4px solid #FFEB3B;
+            color: #ccc;
         }
         #foodLog li:last-child {
             margin-bottom: 0;
@@ -138,8 +192,8 @@
             padding: 20px;
         }
         .spinner {
-            border: 5px solid #f3f3f3; /* Light grey */
-            border-top: 5px solid #007bff; /* Blue */
+            border: 5px solid #444; 
+            border-top: 5px solid #FFEB3B; /* Yellow spinner accent */
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -153,87 +207,103 @@
         }
 
         #geminiError, #apiKeyError {
-            margin-top: 10px;
-            font-weight: bold;
+            margin-top: 15px;
+            font-weight: 500; /* Poppins medium */
+            color: #FF8A80; /* Light red for errors on dark theme */
+            background-color: rgba(255, 138, 128, 0.1);
+            padding: 10px;
+            border-radius: 6px;
         }
         
         /* Camera View Styles */
         #cameraView {
-            position: fixed; /* Changed from fixed to absolute for better mobile handling sometimes */
+            position: fixed; 
             top: 0;
             left: 0;
-            width: 100vw; /* Use viewport units */
-            height: 100vh; /* Use viewport units */
+            width: 100vw; 
+            height: 100vh; 
             background-color: black;
             z-index: 1000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Prevent scrollbars on camera view */
+            overflow: hidden;
         }
 
         #cameraFeed {
             width: 100%;
-            height: 100%; /* Will be adjusted by JS or calc if controls are overlayed */
-            object-fit: cover; /* Cover the area, might crop */
+            height: 100%; 
+            object-fit: cover;
         }
         
         #cameraControls {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 0;
-            background-color: rgba(0,0,0,0.6);
+            bottom: 30px; /* Positioned higher from the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto; 
             display: flex;
-            justify-content: space-around; /* Space out buttons */
-            align-items: center;
-            box-sizing: border-box;
+            gap: 20px; /* Space between buttons */
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.6); 
+            border-radius: 12px;
+            z-index: 1001; 
         }
 
         #cameraControls button {
             padding: 15px 25px;
             font-size: 18px;
             border-radius: 8px;
-            color: white;
             font-weight: bold;
         }
         #captureButton {
-            background-color: #28a745; /* Green */
+            background-color: #FFEB3B; 
+            color: #121212;
         }
         #captureButton:hover {
-            background-color: #1e7e34;
+            background-color: #FDD835;
         }
         #cancelCameraButton {
-            background-color: #dc3545; /* Red */
+            background-color: #555; 
+            color: #E0E0E0;
         }
         #cancelCameraButton:hover {
-            background-color: #c82333;
+            background-color: #666;
         }
 
     </style>
 </head>
 <body>
     <div id="appContainer">
+        <h1 class="app-title">xbcq's Calorie tracker</h1>
         <div id="apiKeySetup" style="display: none;">
             <h2>Setup Gemini API Key</h2>
             <p>Please enter your Google AI Studio Gemini API Key:</p>
             <input type="password" id="apiKeyInput" placeholder="Enter API Key">
             <button id="saveApiKeyButton">Save Key & Start</button>
-            <p id="apiKeyError" style="color: red; display: none;"></p>
+            <p id="apiKeyError" style="color: #FF8A80; display: none;"></p>
         </div>
 
         <div id="mainApp" style="display: none;">
             <div id="calorieDisplay">
                 <h2>Daily Calorie Intake</h2>
                 <div id="calorieGaugeContainer">
-                    <svg id="calorieGauge" width="250" height="125"></svg> </div>
-                <p><span id="currentCalories">0</span> / <span id="targetCalories">2000</span> kcal</p>
+                    <svg id="calorieGauge" width="250" height="125"></svg>
+                </div>
+                <p class="calorie-text"><span id="currentCalories">0</span> / <span id="targetCalories">2000</span> kcal</p>
                 <div>
                     <input type="number" id="targetCaloriesInput" value="2000" placeholder="Set Target (e.g., 2000)">
                     <button id="setTargetButton">Set Target</button>
                 </div>
+            </div>
+
+            <div id="lastScannedNutrients" style="display: none;">
+                <h4>Last Scanned Item Details:</h4>
+                <p id="nutrientFoodName"><strong>Food:</strong> <span>N/A</span></p>
+                <p id="nutrientWeight"><strong>Weight:</strong> <span>N/A</span></p>
+                <p id="nutrientCarbs"><strong>Carbs:</strong> <span>N/A</span></p>
+                <p id="nutrientProtein"><strong>Protein:</strong> <span>N/A</span></p>
             </div>
 
             <div id="controls">
@@ -244,7 +314,7 @@
                 <div class="spinner"></div>
                 <p>Analyzing your food... please wait.</p>
             </div>
-            <p id="geminiError" style="color: red; display: none; text-align: center;"></p>
+            <p id="geminiError" style="color: #FF8A80; display: none; text-align: center;"></p>
 
             <div id="logSection">
                 <h3>Activity Log</h3>
@@ -254,7 +324,8 @@
         </div>
 
         <div id="cameraView" style="display: none;">
-            <video id="cameraFeed" playsinline autoplay muted></video> <canvas id="photoCanvas" style="display:none;"></canvas>
+            <video id="cameraFeed" playsinline autoplay muted></video>
+            <canvas id="photoCanvas" style="display:none;"></canvas>
             <div id="cameraControls">
                 <button id="captureButton">Capture</button>
                 <button id="cancelCameraButton">Cancel</button>
@@ -264,20 +335,22 @@
 
     <script>
         // Constants
-        const API_KEY_STORAGE_KEY = 'geminiCalorieTrackerApiKey';
-        const GEMINI_API_URL_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='; // API Key will be appended
+        const API_KEY_STORAGE_KEY = 'xbcqGeminiCalorieTrackerApiKey'; // Changed key to be specific
+        const GEMINI_API_URL_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=';
 
         // DOM Elements
         let apiKeySetupDiv, mainAppDiv, apiKeyInput, saveApiKeyButton, apiKeyErrorP;
         let calorieGaugeSvg, currentCaloriesSpan, targetCaloriesSpan, targetCaloriesInput, setTargetButton;
         let scanButton, cameraViewDiv, cameraFeedVideo, captureButton, cancelCameraButton, photoCanvas, cameraControlsDiv;
         let foodLogUl, loadingIndicatorDiv, geminiErrorP, logSectionDiv;
+        let lastScannedNutrientsDiv, nutrientFoodNameSpan, nutrientWeightSpan, nutrientCarbsSpan, nutrientProteinSpan;
+
 
         // App State
         let apiKey = '';
         let currentCalories = 0;
         let targetCalories = 2000;
-        let foodHistory = []; // Stores { name, calories, date }
+        let foodHistory = []; 
         let mediaStream = null;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -306,6 +379,13 @@
             loadingIndicatorDiv = document.getElementById('loadingIndicator');
             geminiErrorP = document.getElementById('geminiError');
             logSectionDiv = document.getElementById('logSection');
+
+            lastScannedNutrientsDiv = document.getElementById('lastScannedNutrients');
+            nutrientFoodNameSpan = document.querySelector('#nutrientFoodName span');
+            nutrientWeightSpan = document.querySelector('#nutrientWeight span');
+            nutrientCarbsSpan = document.querySelector('#nutrientCarbs span');
+            nutrientProteinSpan = document.querySelector('#nutrientProtein span');
+
 
             // Event Listeners
             saveApiKeyButton.addEventListener('click', saveApiKeyHandler);
@@ -348,11 +428,32 @@
             updateCalorieDisplay();
             updateFoodLog();
             logSectionDiv.style.display = foodHistory.length > 0 ? 'block' : 'none';
+            // Check if there's saved last scanned data to display, or hide it
+            const lastScanned = getLastScannedItemFromHistory();
+            if (lastScanned) {
+                displayLastScannedNutrients(lastScanned, false); // false: don't assume it's a new scan
+            } else {
+                lastScannedNutrientsDiv.style.display = 'none';
+            }
         }
+        
+        function getLastScannedItemFromHistory() {
+            // This is a simplified approach. For true "last scanned item"
+            // persistence beyond the current session's foodHistory,
+            // we'd need to store its details separately in localStorage.
+            // For now, if foodHistory exists, we can infer the last item details
+            // if they were stored with more than just calories.
+            // The current foodHistory only stores name, calories, date.
+            // So, this function won't be able to restore full nutrients on page load
+            // unless we modify what `addCalories` and `saveData` store.
+            // For now, lastScannedNutrients will only show after a new scan.
+            return null; // Or implement more sophisticated storage for last full scan details
+        }
+
 
         function updateTargetCaloriesHandler() {
             const newTarget = parseInt(targetCaloriesInput.value, 10);
-            if (!isNaN(newTarget) && newTarget > 0 && newTarget < 50000) { // Added upper limit
+            if (!isNaN(newTarget) && newTarget > 0 && newTarget < 50000) {
                 targetCalories = newTarget;
                 localStorage.setItem('targetCalories', targetCalories);
                 updateCalorieDisplay();
@@ -370,16 +471,15 @@
 
         function drawGauge(current, max) {
             const svgNS = "http://www.w3.org/2000/svg";
-            calorieGaugeSvg.innerHTML = ''; // Clear previous gauge
+            calorieGaugeSvg.innerHTML = ''; 
 
             const width = parseFloat(calorieGaugeSvg.getAttribute('width'));
             const height = parseFloat(calorieGaugeSvg.getAttribute('height'));
-            const strokeWidth = 20;
-            const radius = (height - strokeWidth / 2) * 0.95; // Adjusted radius for semicircle
+            const strokeWidth = 22; // Slightly thicker
+            const radius = (height - strokeWidth / 2) * 0.95; 
             const cx = width / 2;
-            const cy = height - strokeWidth / 2; // Center Y at the bottom for semicircle
+            const cy = height - strokeWidth / 2; 
 
-            // Background arc (semicircle)
             const bgArc = document.createElementNS(svgNS, "path");
             const startX = cx - radius;
             const startY = cy;
@@ -388,48 +488,88 @@
             
             bgArc.setAttribute("d", `M ${startX},${startY} A ${radius},${radius} 0 0 1 ${endX},${endY}`);
             bgArc.setAttribute("fill", "none");
-            bgArc.setAttribute("stroke", "#e0e0e0");
+            bgArc.setAttribute("stroke", "#444"); // Darker background for gauge
             bgArc.setAttribute("stroke-width", strokeWidth);
             bgArc.setAttribute("stroke-linecap", "round");
             calorieGaugeSvg.appendChild(bgArc);
 
             if (max > 0) {
-                // Foreground arc (progress)
-                const percentage = Math.min(current / max, 1);
-                const angle = percentage * Math.PI; // Angle in radians for semicircle (0 to PI)
+                const percentage = Math.min(current / max, 1.1); // Allow to go slightly over for visual feedback
                 
-                // Calculate end point of the arc based on angle
-                const fgEndX = cx - Math.cos(angle) * radius;
-                const fgEndY = cy - Math.sin(angle) * radius;
-                const largeArcFlag = angle > Math.PI / 2 ? 0 : 0; // For semicircle, this calculation is tricky. Simpler to use dasharray.
-
                 const fgArc = document.createElementNS(svgNS, "path");
-                // Path for semicircle: M startX,startY A radius,radius, x-axis-rotation, large-arc-flag, sweep-flag, endX, endY
-                // Using stroke-dasharray for simpler progress on semicircle
-                const circumference = Math.PI * radius; // Circumference of the semicircle
+                const circumference = Math.PI * radius;
                 fgArc.setAttribute("d", `M ${startX},${startY} A ${radius},${radius} 0 0 1 ${endX},${endY}`);
                 fgArc.setAttribute("fill", "none");
                 
-                let progressColor = "#4CAF50"; // Green
-                if (percentage > 0.85 && percentage <=1) progressColor = "#FFA500"; // Orange
-                if (percentage > 1) progressColor = "#FF0000"; // Red if over target
+                let progressColor = "#FFEB3B"; // Yellow
+                if (percentage > 1) progressColor = "#FF6347"; // Tomato red if over target
                 
                 fgArc.setAttribute("stroke", progressColor);
                 fgArc.setAttribute("stroke-width", strokeWidth);
                 fgArc.setAttribute("stroke-linecap", "round");
-                fgArc.setAttribute("stroke-dasharray", `${circumference * percentage} ${circumference}`);
+                // Cap visual progress at 100% of the arc, even if percentage is > 1
+                fgArc.setAttribute("stroke-dasharray", `${circumference * Math.min(percentage, 1)} ${circumference}`); 
                 calorieGaugeSvg.appendChild(fgArc);
             }
         }
 
+        function displayLastScannedNutrients(item, isNewScan = true) {
+            if (!item) {
+                lastScannedNutrientsDiv.style.display = 'none';
+                return;
+            }
+            nutrientFoodNameSpan.textContent = item.name || 'N/A';
+            nutrientWeightSpan.textContent = (item.weight_grams !== undefined ? `${item.weight_grams} g` : 'N/A');
+            nutrientCarbsSpan.textContent = (item.carbs_grams !== undefined ? `${item.carbs_grams} g` : 'N/A');
+            nutrientProteinSpan.textContent = (item.protein_grams !== undefined ? `${item.protein_grams} g` : 'N/A');
+            lastScannedNutrientsDiv.style.display = 'block';
 
-        function addCalories(amount, foodName = "Scanned Food") {
-            currentCalories += amount;
-            foodHistory.push({ name: foodName, calories: Math.round(amount), date: new Date().toISOString() });
+            // If it's a new scan, we could also store this 'lastFullItem' in localStorage
+            // to be reloaded by initializeMainApp via getLastScannedItemFromHistory
+            if (isNewScan) {
+                localStorage.setItem('lastFullScannedItem', JSON.stringify(item));
+            }
+        }
+
+        function addCalories(amount, foodItemDetails) { // foodItemDetails is now the full first item object
+            currentCalories += amount; // amount here is total_estimated_calories_all_items
+            
+            // For logging, we use the name(s) from foodItemDetails or a summary
+            let logName = "Scanned Food";
+            if (foodItemDetails && foodItemDetails.name) {
+                logName = foodItemDetails.name;
+            } else if (foodItemDetails && Array.isArray(foodItemDetails.food_items) && foodItemDetails.food_items.length > 0) {
+                 // If multiple items were processed and summarized before calling addCalories
+                logName = foodItemDetails.food_items.map(fi => fi.name).join(', ');
+            }
+
+            foodHistory.push({ 
+                name: logName, 
+                calories: Math.round(amount), 
+                date: new Date().toISOString(),
+                // Optionally store the full details of the primary item if needed for log later
+                // details: (foodItemDetails && foodItemDetails.name) ? foodItemDetails : null 
+            });
             saveData();
             updateCalorieDisplay();
             updateFoodLog();
             logSectionDiv.style.display = 'block';
+
+            if (foodItemDetails && foodItemDetails.name) { // If we have details for a single primary item
+                displayLastScannedNutrients(foodItemDetails);
+            } else if (foodItemDetails && Array.isArray(foodItemDetails.food_items) && foodItemDetails.food_items.length === 1) {
+                // If the details object contains an array with one item
+                displayLastScannedNutrients(foodItemDetails.food_items[0]);
+            }
+             else {
+                // If multiple items or no specific item details to show, clear/hide nutrient display
+                // or show summary if applicable. For now, just display for single primary item.
+                const lastFullItem = JSON.parse(localStorage.getItem('lastFullScannedItem'));
+                if (!lastFullItem && lastScannedNutrientsDiv) { // only hide if it's not already showing something persistent
+                     // lastScannedNutrientsDiv.style.display = 'none'; 
+                     // Decided to keep last scanned visible until next scan or day reset
+                }
+            }
         }
 
         function updateFoodLog() {
@@ -449,6 +589,7 @@
             localStorage.setItem('foodHistory', JSON.stringify(foodHistory));
             localStorage.setItem('targetCalories', targetCalories);
             localStorage.setItem('lastLoggedDate', new Date().toISOString().split('T')[0]);
+            // 'lastFullScannedItem' is saved in displayLastScannedNutrients for new scans
         }
 
         function loadData() {
@@ -462,11 +603,20 @@
                 currentCalories = 0;
                 foodHistory = [];
                 targetCalories = savedTarget ? parseInt(savedTarget, 10) : 2000;
-                saveData(); // Save the reset state
+                localStorage.removeItem('lastFullScannedItem'); // Clear last scanned on new day
+                saveData(); 
             } else {
                 currentCalories = savedCalories ? parseFloat(savedCalories) : 0;
                 foodHistory = savedHistory ? JSON.parse(savedHistory) : [];
                 targetCalories = savedTarget ? parseInt(savedTarget, 10) : 2000;
+                
+                // Load and display last full scanned item if it exists for today
+                const lastFullItem = JSON.parse(localStorage.getItem('lastFullScannedItem'));
+                if (lastFullItem && lastScannedNutrientsDiv) { // check lastScannedNutrientsDiv exists
+                    displayLastScannedNutrients(lastFullItem, false);
+                } else if (lastScannedNutrientsDiv) {
+                    lastScannedNutrientsDiv.style.display = 'none';
+                }
             }
             targetCaloriesInput.value = targetCalories;
         }
@@ -477,25 +627,19 @@
                 return;
             }
             try {
-                // Hide main app and show camera view
                 mainAppDiv.style.display = 'none';
                 cameraViewDiv.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Prevent scrolling of main page
-
-                // Adjust video feed height if controls are present
-                const controlsHeight = cameraControlsDiv.offsetHeight;
-                cameraFeedVideo.style.height = `calc(100% - ${controlsHeight}px)`;
-
+                document.body.style.overflow = 'hidden'; 
 
                 mediaStream = await navigator.mediaDevices.getUserMedia({ 
                     video: { 
-                        facingMode: 'environment', // Prefer back camera
-                        width: { ideal: 1280 }, // Request a decent resolution
+                        facingMode: 'environment',
+                        width: { ideal: 1280 }, 
                         height: { ideal: 720 } 
                     } 
                 });
                 cameraFeedVideo.srcObject = mediaStream;
-                await cameraFeedVideo.play(); // Ensure play is awaited for some browsers
+                await cameraFeedVideo.play();
             } catch (err) {
                 console.error("Error accessing camera: ", err);
                 alert(`Could not access the camera. Please ensure permissions are granted and you are on HTTPS or localhost. Error: ${err.name} - ${err.message}`);
@@ -506,12 +650,12 @@
         function closeCameraHandler() {
             if (mediaStream) {
                 mediaStream.getTracks().forEach(track => track.stop());
-                mediaStream = null; // Clear the stream
+                mediaStream = null;
             }
             cameraFeedVideo.srcObject = null;
             cameraViewDiv.style.display = 'none';
             mainAppDiv.style.display = 'block';
-            document.body.style.overflow = 'auto'; // Restore scrolling
+            document.body.style.overflow = 'auto'; 
             geminiErrorP.style.display = 'none';
         }
 
@@ -522,7 +666,6 @@
                 return;
             }
             const context = photoCanvas.getContext('2d');
-            // Set canvas dimensions to match the video's intrinsic size to capture full frame
             photoCanvas.width = cameraFeedVideo.videoWidth;
             photoCanvas.height = cameraFeedVideo.videoHeight;
             
@@ -530,7 +673,7 @@
             
             closeCameraHandler(); 
 
-            const imageDataBase64 = photoCanvas.toDataURL('image/jpeg', 0.85).split(',')[1]; // 0.85 quality JPEG
+            const imageDataBase64 = photoCanvas.toDataURL('image/jpeg', 0.85).split(',')[1];
             
             loadingIndicatorDiv.style.display = 'block';
             geminiErrorP.style.display = 'none';
@@ -543,8 +686,8 @@
 
             const prompt = `You are an expert nutritionist. Analyze the food item(s) in this image.
 Estimate the following for each distinct food item you can identify:
-1. A concise name for the food item.
-2. Total estimated weight in grams (e.g., 150 for an apple).
+1. A concise name for the food item (e.g., "Medium Apple", "Chicken Breast Piece").
+2. Total estimated weight in grams (e.g., 150).
 3. Estimated protein in grams.
 4. Estimated carbohydrates in grams.
 5. Estimated total calories (kcal).
@@ -586,7 +729,7 @@ Do not include any text outside the JSON object, no conversational introductions
                     }
                 ],
                 "generationConfig": {
-                    "responseMimeType": "application/json", // Crucial for direct JSON output
+                    "responseMimeType": "application/json",
                 }
             };
 
@@ -602,7 +745,7 @@ Do not include any text outside the JSON object, no conversational introductions
                 loadingIndicatorDiv.style.display = 'none';
 
                 if (!response.ok) {
-                    const errorBody = await response.json().catch(() => response.text()); // Try to parse error as JSON, fallback to text
+                    const errorBody = await response.json().catch(() => response.text());
                     console.error('Gemini API Error Response:', errorBody);
                     let errorMessage = `Error from Gemini API: ${response.status} ${response.statusText}`;
                     if (typeof errorBody === 'object' && errorBody && errorBody.error && errorBody.error.message) {
@@ -614,25 +757,15 @@ Do not include any text outside the JSON object, no conversational introductions
                     return;
                 }
 
-                const responseData = await response.json(); // Since we requested application/json
+                const responseData = await response.json(); 
                 console.log('Gemini API Success Response:', responseData);
-
-                // Expected structure based on "responseMimeType": "application/json"
-                // and typical Gemini API structure is responseData.candidates[0].content.parts[0].text
-                // (where .text would be the JSON string if not directly parsed)
-                // OR directly responseData if the model just returns the JSON object due to responseMimeType.
-                // For gemini-1.5-flash with "application/json" responseMimeType, the model's output is directly the JSON object.
-                // However, it might still be wrapped in the standard candidate structure.
                 
                 let nutritionInfo;
                 if (responseData.candidates && responseData.candidates.length > 0 &&
                     responseData.candidates[0].content && responseData.candidates[0].content.parts &&
                     responseData.candidates[0].content.parts.length > 0 &&
                     responseData.candidates[0].content.parts[0].text) {
-                    
-                    // The model might provide the JSON string within the 'text' field.
                     try {
-                        // Clean potential markdown if any (though responseMimeType should prevent this)
                         let jsonString = responseData.candidates[0].content.parts[0].text.trim();
                         if (jsonString.startsWith("```json")) {
                             jsonString = jsonString.substring(7, jsonString.length - 3).trim();
@@ -642,26 +775,24 @@ Do not include any text outside the JSON object, no conversational introductions
                         nutritionInfo = JSON.parse(jsonString);
                     } catch (e) {
                          console.error("Error parsing Gemini JSON from text field:", e);
-                         displayGeminiError("AI returned data, but it was not in the expected JSON format (from text field).");
+                         displayGeminiError("AI returned data, but it was not in the expected JSON format.");
                          return;
                     }
                 } else if (typeof responseData === 'object' && responseData.food_items) {
-                    // If the API directly returns the JSON as the top-level object due to responseMimeType
                     nutritionInfo = responseData;
-                }
-                 else {
+                } else {
                      displayGeminiError("Received an unexpected response structure from AI.");
                      console.error("Unexpected Gemini Response structure: ", responseData);
                      return;
                  }
 
-
                 if (nutritionInfo && nutritionInfo.food_items && nutritionInfo.food_items.length > 0) {
-                    let foodNames = nutritionInfo.food_items.map(item => item.name || "Unknown item").join(', ');
                     const totalCaloriesFromResponse = nutritionInfo.total_estimated_calories_all_items;
+                    const firstItemDetails = nutritionInfo.food_items[0]; // For display purposes
 
                     if (typeof totalCaloriesFromResponse === 'number' && totalCaloriesFromResponse >= 0) {
-                        addCalories(totalCaloriesFromResponse, foodNames);
+                        // Pass the first item's details to addCalories, which will then call displayLastScannedNutrients
+                        addCalories(totalCaloriesFromResponse, firstItemDetails); 
                         if (totalCaloriesFromResponse === 0 && nutritionInfo.food_items.length > 0) {
                             alert("AI identified food items but estimated 0 total calories. This has been logged.");
                         }
@@ -671,6 +802,7 @@ Do not include any text outside the JSON object, no conversational introductions
 
                 } else if (nutritionInfo && nutritionInfo.food_items && nutritionInfo.food_items.length === 0) {
                      displayGeminiError("AI analyzed the image but could not identify any food items or estimate calories.");
+                     lastScannedNutrientsDiv.style.display = 'none'; // Hide if no food found
                 } else {
                     displayGeminiError("AI could not process the image or returned an invalid response format.");
                 }
@@ -685,7 +817,6 @@ Do not include any text outside the JSON object, no conversational introductions
         function displayGeminiError(message) {
             geminiErrorP.textContent = message;
             geminiErrorP.style.display = 'block';
-            // Auto-hide after a while, but allow critical errors to stay longer
             setTimeout(() => {
                 geminiErrorP.style.display = 'none';
             }, message.toLowerCase().includes("error") ? 8000 : 5000);
