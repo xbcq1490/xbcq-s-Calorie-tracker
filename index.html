@@ -8,13 +8,55 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
     <style>
+        /* --- Dark Yellow/Gold Theme Variables --- */
+        :root {
+            --bg-color: #212121; /* Very Dark Grey Background */
+            --secondary-bg: #303030; /* Slightly Lighter Dark Grey */
+            --text-color: #F5F5F5; /* Light Grey/Off-White Text */
+            --text-muted: #BDBDBD; /* Grey for Muted Text/Status */
+            --primary-yellow: #FFC107; /* Bright Amber/Yellow Primary Accent */
+            --primary-yellow-darker: #FFA000; /* Darker Amber for Hover/Borders */
+            --accent-gold: #FFD54F; /* Lighter Gold for some highlights */
+            --border-color: #424242; /* Dark Grey Border */
+            --markdown-bg: #2a2a2a; /* Dark BG for Markdown Area (used for log/nutrient sections) */
+            --markdown-border: var(--border-color);
+            --link-color: var(--accent-gold); /* Gold Links */
+            --link-hover-color: #FFFFFF; /* White Link Hover */
+            --code-bg: #383838; /* Dark Code Background */
+            --error-color: #EF5350; /* Red for Errors */
+            --button-text: #212121; /* Dark text on yellow button */
+            --scrollbar-track: var(--bg-color);
+            --scrollbar-thumb: var(--border-color);
+            --scrollbar-thumb_hover: #555555;
+            --global-border-radius: 10px; /* Rounded corners */
+            --progress-track-color: var(--border-color); /* For the gauge track */
+            --progress-background-color: var(--secondary-bg); /* For the center of the gauge */
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: var(--global-border-radius);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb_hover);
+        }
+
+
         body {
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
             margin: 0;
             padding: 0;
-            background-color: #121212; /* Dark background for body */
-            color: #E0E0E0; /* Light text color */
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -24,28 +66,28 @@
         }
 
         #appContainer {
-            background-color: #1E1E1E; /* Darker container background */
+            background-color: var(--secondary-bg);
             padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(255, 235, 59, 0.08); /* Subtle yellow shadow */
+            border-radius: var(--global-border-radius);
+            box-shadow: 0 6px 18px rgba(0,0,0, 0.2); /* Darker shadow */
             width: 100%;
             max-width: 600px;
-            margin: 20px;
+            margin: 20px auto; /* Center container */
             box-sizing: border-box;
         }
         
         .app-title {
-            color: #FFEB3B; /* Yellow accent for title */
+            color: var(--primary-yellow);
             font-size: 2.2em;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         #apiKeySetup, #mainApp {
             padding: 10px;
         }
 
-        #apiKeySetup h2, #mainApp h2, #mainApp h3, #mainApp h4 {
-            color: #FFEB3B; /* Yellow accent for headers */
+        #apiKeySetup h2, #mainApp h3, #mainApp h4 { /* Removed h2 for "Daily Calorie Intake" */
+            color: var(--primary-yellow);
         }
 
         #apiKeySetup input[type="password"], 
@@ -53,28 +95,28 @@
             width: calc(100% - 26px);
             padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid #444;
-            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--global-border-radius);
             font-size: 16px;
             box-sizing: border-box;
-            background-color: #333;
-            color: #E0E0E0;
+            background-color: var(--code-bg); /* Using code-bg for inputs */
+            color: var(--text-color);
             font-family: 'Poppins', sans-serif;
         }
         #apiKeySetup input[type="password"]:focus, 
         #targetCaloriesInput:focus {
-            border-color: #FFEB3B;
+            border-color: var(--primary-yellow);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.3);
+            box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3); /* primary-yellow with alpha */
         }
 
 
-        button { /* General button styling */
+        button {
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
             padding: 12px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--global-border-radius);
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
@@ -85,13 +127,13 @@
 
         /* Primary buttons */
         #saveApiKeyButton, #scanButton, #setTargetButton {
-            background-color: #FFEB3B;
-            color: #121212; /* Dark text on yellow button */
+            background-color: var(--primary-yellow);
+            color: var(--button-text);
             font-weight: bold;
         }
         #saveApiKeyButton:hover, #scanButton:hover, #setTargetButton:hover {
-            background-color: #FDD835; /* Slightly darker yellow on hover */
-            box-shadow: 0 2px 8px rgba(255, 235, 59, 0.2);
+            background-color: var(--primary-yellow-darker);
+            box-shadow: 0 2px 8px rgba(0,0,0, 0.15);
         }
 
 
@@ -107,41 +149,70 @@
             max-width: 320px;
         }
       
-        #calorieDisplay {
-            margin-bottom: 25px;
-        }
-        #calorieDisplay h2 {
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-        #calorieDisplay p.calorie-text {
-            font-size: 1.3em;
-            font-weight: 500; /* Poppins medium */
-            color: #E0E0E0;
-        }
-        #calorieDisplay p.calorie-text span#currentCalories {
-            color: #FFEB3B; 
-            font-size: 1.5em;
-        }
-         #calorieDisplay p.calorie-text span#targetCalories {
-            font-size: 1.1em;
-            color: #aaa;
-        }
-
-
-        #calorieGaugeContainer {
-            margin-bottom: 20px;
+        /* New CSS Gauge Styling */
+        .progress-gauge-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            margin-bottom: 25px;
+            margin-top: 10px; /* Added margin after removing h2 */
+        }
+        .progress-gauge {
+            width: 180px; 
+            height: 180px;
+            border-radius: 50%;
+            background: var(--progress-track-color); /* Fallback, will be overridden by conic-gradient */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+        .progress-gauge::before { /* Inner circle for doughnut effect */
+            content: '';
+            position: absolute;
+            width: calc(100% - 36px); /* Ring thickness of 18px */
+            height: calc(100% - 36px);
+            background: var(--progress-background-color); 
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .progress-gauge-value {
+            position: relative;
+            z-index: 1;
+            font-size: 1.6em; 
+            color: var(--text-color);
+            text-align: center;
+            line-height: 1.2;
+        }
+        .progress-gauge-value span#currentCaloriesDisplay {
+            color: var(--primary-yellow);
+            font-weight: bold;
+            display: block; 
+            font-size: 2.2em; /* Larger calorie number */
+        }
+         .progress-gauge-value .kcal-unit {
+            font-size: 0.7em;
+            color: var(--text-muted);
+            display: block;
+         }
+        .progress-gauge-target {
+            font-size: 1em;
+            color: var(--text-muted);
+        }
+        .progress-gauge-target span#targetCaloriesDisplay{
+            color: var(--text-color);
+            font-weight: 500;
         }
         
         #lastScannedNutrients {
-            background-color: #2a2a2a;
+            background-color: var(--markdown-bg);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: var(--global-border-radius);
             margin-top: 20px;
             text-align: left;
+            border: 1px solid var(--markdown-border);
         }
         #lastScannedNutrients h4 {
             margin-top: 0;
@@ -149,15 +220,15 @@
             font-size: 1.1em;
         }
         #lastScannedNutrients p {
-            margin: 5px 0;
+            margin: 8px 0;
             font-size: 0.95em;
-            color: #ccc;
+            color: var(--text-muted);
         }
         #lastScannedNutrients p strong {
-            color: #FFEB3B;
+            color: var(--accent-gold);
         }
         #lastScannedNutrients p span {
-            color: #E0E0E0;
+            color: var(--text-color);
         }
 
 
@@ -167,20 +238,20 @@
             text-align: left;
             max-height: 200px;
             overflow-y: auto;
-            border: 1px solid #333;
-            border-radius: 8px;
+            border: 1px solid var(--markdown-border);
+            border-radius: var(--global-border-radius);
             padding: 10px;
-            background-color: #2a2a2a;
+            background-color: var(--markdown-bg);
         }
 
         #foodLog li {
-            background-color: #333;
+            background-color: var(--code-bg); /* Using code-bg for log items */
             padding: 10px 12px;
             margin-bottom: 8px;
-            border-radius: 6px;
+            border-radius: calc(var(--global-border-radius) - 4px);
             font-size: 0.9em;
-            border-left: 4px solid #FFEB3B;
-            color: #ccc;
+            border-left: 4px solid var(--primary-yellow);
+            color: var(--text-muted);
         }
         #foodLog li:last-child {
             margin-bottom: 0;
@@ -192,8 +263,8 @@
             padding: 20px;
         }
         .spinner {
-            border: 5px solid #444; 
-            border-top: 5px solid #FFEB3B; /* Yellow spinner accent */
+            border: 5px solid var(--border-color); 
+            border-top: 5px solid var(--primary-yellow); 
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -208,11 +279,12 @@
 
         #geminiError, #apiKeyError {
             margin-top: 15px;
-            font-weight: 500; /* Poppins medium */
-            color: #FF8A80; /* Light red for errors on dark theme */
-            background-color: rgba(255, 138, 128, 0.1);
+            font-weight: 500; 
+            color: var(--error-color); 
+            background-color: rgba(239, 83, 80, 0.1); /* Error color with alpha */
             padding: 10px;
-            border-radius: 6px;
+            border-radius: var(--global-border-radius);
+            border: 1px solid var(--error-color);
         }
         
         /* Camera View Styles */
@@ -239,37 +311,39 @@
         
         #cameraControls {
             position: absolute;
-            bottom: 30px; /* Positioned higher from the bottom */
+            bottom: 50px; /* Moved further up */
             left: 50%;
             transform: translateX(-50%);
             width: auto; 
             display: flex;
-            gap: 20px; /* Space between buttons */
+            gap: 20px; 
             padding: 12px;
-            background-color: rgba(0, 0, 0, 0.6); 
-            border-radius: 12px;
+            background-color: rgba(0, 0, 0, 0.65); 
+            border-radius: calc(var(--global-border-radius) + 4px); /* Slightly larger radius */
             z-index: 1001; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
         }
 
         #cameraControls button {
             padding: 15px 25px;
             font-size: 18px;
-            border-radius: 8px;
+            border-radius: var(--global-border-radius);
             font-weight: bold;
         }
         #captureButton {
-            background-color: #FFEB3B; 
-            color: #121212;
+            background-color: var(--primary-yellow); 
+            color: var(--button-text);
         }
         #captureButton:hover {
-            background-color: #FDD835;
+            background-color: var(--primary-yellow-darker);
         }
         #cancelCameraButton {
-            background-color: #555; 
-            color: #E0E0E0;
+            background-color: var(--secondary-bg); 
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
         }
         #cancelCameraButton:hover {
-            background-color: #666;
+            background-color: var(--border-color);
         }
 
     </style>
@@ -282,20 +356,22 @@
             <p>Please enter your Google AI Studio Gemini API Key:</p>
             <input type="password" id="apiKeyInput" placeholder="Enter API Key">
             <button id="saveApiKeyButton">Save Key & Start</button>
-            <p id="apiKeyError" style="color: #FF8A80; display: none;"></p>
+            <p id="apiKeyError" style="color: var(--error-color); display: none;"></p>
         </div>
 
         <div id="mainApp" style="display: none;">
-            <div id="calorieDisplay">
-                <h2>Daily Calorie Intake</h2>
-                <div id="calorieGaugeContainer">
-                    <svg id="calorieGauge" width="250" height="125"></svg>
+            <div class="progress-gauge-container">
+                <div class="progress-gauge" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="--progress-percent: 0;">
+                    <div class="progress-gauge-value">
+                        <span id="currentCaloriesDisplay">0</span>
+                        <span class="kcal-unit">kcal</span>
+                    </div>
                 </div>
-                <p class="calorie-text"><span id="currentCalories">0</span> / <span id="targetCalories">2000</span> kcal</p>
-                <div>
-                    <input type="number" id="targetCaloriesInput" value="2000" placeholder="Set Target (e.g., 2000)">
-                    <button id="setTargetButton">Set Target</button>
-                </div>
+                <div class="progress-gauge-target">Target: <span id="targetCaloriesDisplay">2000</span> kcal</div>
+            </div>
+
+            <div> <input type="number" id="targetCaloriesInput" value="2000" placeholder="Set Target (e.g., 2000)">
+                <button id="setTargetButton">Set Target</button>
             </div>
 
             <div id="lastScannedNutrients" style="display: none;">
@@ -314,7 +390,7 @@
                 <div class="spinner"></div>
                 <p>Analyzing your food... please wait.</p>
             </div>
-            <p id="geminiError" style="color: #FF8A80; display: none; text-align: center;"></p>
+            <p id="geminiError" style="color: var(--error-color); display: none; text-align: center;"></p>
 
             <div id="logSection">
                 <h3>Activity Log</h3>
@@ -335,15 +411,17 @@
 
     <script>
         // Constants
-        const API_KEY_STORAGE_KEY = 'xbcqGeminiCalorieTrackerApiKey'; // Changed key to be specific
+        const API_KEY_STORAGE_KEY = 'xbcqGeminiCalorieTrackerApiKey_v2'; // Updated key for new structure
         const GEMINI_API_URL_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=';
 
         // DOM Elements
         let apiKeySetupDiv, mainAppDiv, apiKeyInput, saveApiKeyButton, apiKeyErrorP;
-        let calorieGaugeSvg, currentCaloriesSpan, targetCaloriesSpan, targetCaloriesInput, setTargetButton;
+        // let calorieGaugeSvg; // Removed
+        let targetCaloriesInput, setTargetButton;
         let scanButton, cameraViewDiv, cameraFeedVideo, captureButton, cancelCameraButton, photoCanvas, cameraControlsDiv;
         let foodLogUl, loadingIndicatorDiv, geminiErrorP, logSectionDiv;
         let lastScannedNutrientsDiv, nutrientFoodNameSpan, nutrientWeightSpan, nutrientCarbsSpan, nutrientProteinSpan;
+        let progressGaugeDiv, currentCaloriesDisplaySpan, targetCaloriesDisplaySpan;
 
 
         // App State
@@ -361,9 +439,11 @@
             saveApiKeyButton = document.getElementById('saveApiKeyButton');
             apiKeyErrorP = document.getElementById('apiKeyError');
 
-            calorieGaugeSvg = document.getElementById('calorieGauge');
-            currentCaloriesSpan = document.getElementById('currentCalories');
-            targetCaloriesSpan = document.getElementById('targetCalories');
+            // calorieGaugeSvg = document.getElementById('calorieGauge'); // Removed
+            progressGaugeDiv = document.querySelector('.progress-gauge');
+            currentCaloriesDisplaySpan = document.getElementById('currentCaloriesDisplay');
+            targetCaloriesDisplaySpan = document.getElementById('targetCaloriesDisplay');
+
             targetCaloriesInput = document.getElementById('targetCaloriesInput');
             setTargetButton = document.getElementById('setTargetButton');
             
@@ -425,32 +505,17 @@
         }
 
         function initializeMainApp() {
-            updateCalorieDisplay();
+            updateCalorieDisplay(); // This will now call updateCSSGauge
             updateFoodLog();
             logSectionDiv.style.display = foodHistory.length > 0 ? 'block' : 'none';
-            // Check if there's saved last scanned data to display, or hide it
-            const lastScanned = getLastScannedItemFromHistory();
+            const lastScanned = JSON.parse(localStorage.getItem('lastFullScannedItem'));
             if (lastScanned) {
-                displayLastScannedNutrients(lastScanned, false); // false: don't assume it's a new scan
+                displayLastScannedNutrients(lastScanned, false); 
             } else {
-                lastScannedNutrientsDiv.style.display = 'none';
+                if (lastScannedNutrientsDiv) lastScannedNutrientsDiv.style.display = 'none';
             }
         }
         
-        function getLastScannedItemFromHistory() {
-            // This is a simplified approach. For true "last scanned item"
-            // persistence beyond the current session's foodHistory,
-            // we'd need to store its details separately in localStorage.
-            // For now, if foodHistory exists, we can infer the last item details
-            // if they were stored with more than just calories.
-            // The current foodHistory only stores name, calories, date.
-            // So, this function won't be able to restore full nutrients on page load
-            // unless we modify what `addCalories` and `saveData` store.
-            // For now, lastScannedNutrients will only show after a new scan.
-            return null; // Or implement more sophisticated storage for last full scan details
-        }
-
-
         function updateTargetCaloriesHandler() {
             const newTarget = parseInt(targetCaloriesInput.value, 10);
             if (!isNaN(newTarget) && newTarget > 0 && newTarget < 50000) {
@@ -463,59 +528,46 @@
         }
 
         function updateCalorieDisplay() {
-            currentCaloriesSpan.textContent = Math.round(currentCalories);
-            targetCaloriesSpan.textContent = targetCalories;
-            targetCaloriesInput.value = targetCalories;
-            drawGauge(currentCalories, targetCalories);
+            targetCaloriesInput.value = targetCalories; // Keep input in sync
+            updateCSSGauge(currentCalories, targetCalories);
         }
 
-        function drawGauge(current, max) {
-            const svgNS = "http://www.w3.org/2000/svg";
-            calorieGaugeSvg.innerHTML = ''; 
-
-            const width = parseFloat(calorieGaugeSvg.getAttribute('width'));
-            const height = parseFloat(calorieGaugeSvg.getAttribute('height'));
-            const strokeWidth = 22; // Slightly thicker
-            const radius = (height - strokeWidth / 2) * 0.95; 
-            const cx = width / 2;
-            const cy = height - strokeWidth / 2; 
-
-            const bgArc = document.createElementNS(svgNS, "path");
-            const startX = cx - radius;
-            const startY = cy;
-            const endX = cx + radius;
-            const endY = cy;
-            
-            bgArc.setAttribute("d", `M ${startX},${startY} A ${radius},${radius} 0 0 1 ${endX},${endY}`);
-            bgArc.setAttribute("fill", "none");
-            bgArc.setAttribute("stroke", "#444"); // Darker background for gauge
-            bgArc.setAttribute("stroke-width", strokeWidth);
-            bgArc.setAttribute("stroke-linecap", "round");
-            calorieGaugeSvg.appendChild(bgArc);
-
+        function updateCSSGauge(current, max) {
+            let percentage = 0;
             if (max > 0) {
-                const percentage = Math.min(current / max, 1.1); // Allow to go slightly over for visual feedback
-                
-                const fgArc = document.createElementNS(svgNS, "path");
-                const circumference = Math.PI * radius;
-                fgArc.setAttribute("d", `M ${startX},${startY} A ${radius},${radius} 0 0 1 ${endX},${endY}`);
-                fgArc.setAttribute("fill", "none");
-                
-                let progressColor = "#FFEB3B"; // Yellow
-                if (percentage > 1) progressColor = "#FF6347"; // Tomato red if over target
-                
-                fgArc.setAttribute("stroke", progressColor);
-                fgArc.setAttribute("stroke-width", strokeWidth);
-                fgArc.setAttribute("stroke-linecap", "round");
-                // Cap visual progress at 100% of the arc, even if percentage is > 1
-                fgArc.setAttribute("stroke-dasharray", `${circumference * Math.min(percentage, 1)} ${circumference}`); 
-                calorieGaugeSvg.appendChild(fgArc);
+                 // Allow visual overflow slightly for the progress bar color, but cap numerical percentage at 100 for aria
+                percentage = (current / max) * 100;
+            }
+            
+            const displayPercentage = Math.min(percentage, 100); // For conic-gradient, don't exceed 100% visually in one color
+            // For aria-valuenow, we can use the actual percentage if we want to show overage, or cap it.
+            // Here, we cap it to 100 for standard progress bar behavior.
+            const ariaPercentage = Math.round(Math.min(percentage, 100));
+
+
+            if (progressGaugeDiv) {
+                let progressColor = 'var(--primary-yellow)';
+                if (current > max) { // If over target
+                    progressColor = 'var(--error-color)'; // Use error color if over target
+                }
+                // Cap the visual fill at 100% for the primary color, then fill with the 'over' color if needed
+                // This logic makes the conic-gradient show up to 100% in primary, then change color if over.
+                // For simplicity, just change the color if over, and the conic-gradient percentage handles the fill amount.
+                progressGaugeDiv.style.background = `conic-gradient(${progressColor} ${displayPercentage}%, var(--progress-track-color) 0%)`;
+                progressGaugeDiv.setAttribute('aria-valuenow', ariaPercentage);
+            }
+            if (currentCaloriesDisplaySpan) {
+                currentCaloriesDisplaySpan.textContent = Math.round(current);
+            }
+            if (targetCaloriesDisplaySpan) {
+                targetCaloriesDisplaySpan.textContent = max;
             }
         }
 
+
         function displayLastScannedNutrients(item, isNewScan = true) {
-            if (!item) {
-                lastScannedNutrientsDiv.style.display = 'none';
+            if (!item || !lastScannedNutrientsDiv) { // Added check for lastScannedNutrientsDiv
+                if (lastScannedNutrientsDiv) lastScannedNutrientsDiv.style.display = 'none';
                 return;
             }
             nutrientFoodNameSpan.textContent = item.name || 'N/A';
@@ -524,22 +576,18 @@
             nutrientProteinSpan.textContent = (item.protein_grams !== undefined ? `${item.protein_grams} g` : 'N/A');
             lastScannedNutrientsDiv.style.display = 'block';
 
-            // If it's a new scan, we could also store this 'lastFullItem' in localStorage
-            // to be reloaded by initializeMainApp via getLastScannedItemFromHistory
             if (isNewScan) {
                 localStorage.setItem('lastFullScannedItem', JSON.stringify(item));
             }
         }
 
-        function addCalories(amount, foodItemDetails) { // foodItemDetails is now the full first item object
-            currentCalories += amount; // amount here is total_estimated_calories_all_items
+        function addCalories(amount, foodItemDetails) { 
+            currentCalories += amount; 
             
-            // For logging, we use the name(s) from foodItemDetails or a summary
             let logName = "Scanned Food";
             if (foodItemDetails && foodItemDetails.name) {
                 logName = foodItemDetails.name;
             } else if (foodItemDetails && Array.isArray(foodItemDetails.food_items) && foodItemDetails.food_items.length > 0) {
-                 // If multiple items were processed and summarized before calling addCalories
                 logName = foodItemDetails.food_items.map(fi => fi.name).join(', ');
             }
 
@@ -547,32 +595,21 @@
                 name: logName, 
                 calories: Math.round(amount), 
                 date: new Date().toISOString(),
-                // Optionally store the full details of the primary item if needed for log later
-                // details: (foodItemDetails && foodItemDetails.name) ? foodItemDetails : null 
             });
             saveData();
             updateCalorieDisplay();
             updateFoodLog();
             logSectionDiv.style.display = 'block';
 
-            if (foodItemDetails && foodItemDetails.name) { // If we have details for a single primary item
+            if (foodItemDetails && foodItemDetails.name) { 
                 displayLastScannedNutrients(foodItemDetails);
             } else if (foodItemDetails && Array.isArray(foodItemDetails.food_items) && foodItemDetails.food_items.length === 1) {
-                // If the details object contains an array with one item
                 displayLastScannedNutrients(foodItemDetails.food_items[0]);
-            }
-             else {
-                // If multiple items or no specific item details to show, clear/hide nutrient display
-                // or show summary if applicable. For now, just display for single primary item.
-                const lastFullItem = JSON.parse(localStorage.getItem('lastFullScannedItem'));
-                if (!lastFullItem && lastScannedNutrientsDiv) { // only hide if it's not already showing something persistent
-                     // lastScannedNutrientsDiv.style.display = 'none'; 
-                     // Decided to keep last scanned visible until next scan or day reset
-                }
             }
         }
 
         function updateFoodLog() {
+            if (!foodLogUl) return;
             foodLogUl.innerHTML = '';
             for (let i = foodHistory.length - 1; i >= 0; i--) {
                 const item = foodHistory[i];
@@ -581,7 +618,7 @@
                 li.textContent = `${item.name}: ${item.calories} kcal (${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})`;
                 foodLogUl.appendChild(li);
             }
-            logSectionDiv.style.display = foodHistory.length > 0 ? 'block' : 'none';
+            if (logSectionDiv) logSectionDiv.style.display = foodHistory.length > 0 ? 'block' : 'none';
         }
 
         function saveData() {
@@ -589,7 +626,6 @@
             localStorage.setItem('foodHistory', JSON.stringify(foodHistory));
             localStorage.setItem('targetCalories', targetCalories);
             localStorage.setItem('lastLoggedDate', new Date().toISOString().split('T')[0]);
-            // 'lastFullScannedItem' is saved in displayLastScannedNutrients for new scans
         }
 
         function loadData() {
@@ -603,22 +639,21 @@
                 currentCalories = 0;
                 foodHistory = [];
                 targetCalories = savedTarget ? parseInt(savedTarget, 10) : 2000;
-                localStorage.removeItem('lastFullScannedItem'); // Clear last scanned on new day
+                localStorage.removeItem('lastFullScannedItem'); 
                 saveData(); 
             } else {
                 currentCalories = savedCalories ? parseFloat(savedCalories) : 0;
                 foodHistory = savedHistory ? JSON.parse(savedHistory) : [];
                 targetCalories = savedTarget ? parseInt(savedTarget, 10) : 2000;
                 
-                // Load and display last full scanned item if it exists for today
                 const lastFullItem = JSON.parse(localStorage.getItem('lastFullScannedItem'));
-                if (lastFullItem && lastScannedNutrientsDiv) { // check lastScannedNutrientsDiv exists
+                if (lastFullItem && lastScannedNutrientsDiv) { 
                     displayLastScannedNutrients(lastFullItem, false);
                 } else if (lastScannedNutrientsDiv) {
                     lastScannedNutrientsDiv.style.display = 'none';
                 }
             }
-            targetCaloriesInput.value = targetCalories;
+            if (targetCaloriesInput) targetCaloriesInput.value = targetCalories;
         }
 
         async function openCameraHandler() {
@@ -627,8 +662,8 @@
                 return;
             }
             try {
-                mainAppDiv.style.display = 'none';
-                cameraViewDiv.style.display = 'flex';
+                if(mainAppDiv) mainAppDiv.style.display = 'none';
+                if(cameraViewDiv) cameraViewDiv.style.display = 'flex';
                 document.body.style.overflow = 'hidden'; 
 
                 mediaStream = await navigator.mediaDevices.getUserMedia({ 
@@ -638,8 +673,10 @@
                         height: { ideal: 720 } 
                     } 
                 });
-                cameraFeedVideo.srcObject = mediaStream;
-                await cameraFeedVideo.play();
+                if (cameraFeedVideo) {
+                    cameraFeedVideo.srcObject = mediaStream;
+                    await cameraFeedVideo.play();
+                }
             } catch (err) {
                 console.error("Error accessing camera: ", err);
                 alert(`Could not access the camera. Please ensure permissions are granted and you are on HTTPS or localhost. Error: ${err.name} - ${err.message}`);
@@ -652,15 +689,15 @@
                 mediaStream.getTracks().forEach(track => track.stop());
                 mediaStream = null;
             }
-            cameraFeedVideo.srcObject = null;
-            cameraViewDiv.style.display = 'none';
-            mainAppDiv.style.display = 'block';
+            if (cameraFeedVideo) cameraFeedVideo.srcObject = null;
+            if (cameraViewDiv) cameraViewDiv.style.display = 'none';
+            if (mainAppDiv) mainAppDiv.style.display = 'block';
             document.body.style.overflow = 'auto'; 
-            geminiErrorP.style.display = 'none';
+            if (geminiErrorP) geminiErrorP.style.display = 'none';
         }
 
         function captureImageHandler() {
-            if (!mediaStream || !cameraFeedVideo.videoWidth) {
+            if (!mediaStream || !cameraFeedVideo || !cameraFeedVideo.videoWidth) {
                 console.error("Camera stream not available or video not ready.");
                 alert("Camera not ready. Please try again.");
                 return;
@@ -675,8 +712,8 @@
 
             const imageDataBase64 = photoCanvas.toDataURL('image/jpeg', 0.85).split(',')[1];
             
-            loadingIndicatorDiv.style.display = 'block';
-            geminiErrorP.style.display = 'none';
+            if(loadingIndicatorDiv) loadingIndicatorDiv.style.display = 'block';
+            if(geminiErrorP) geminiErrorP.style.display = 'none';
 
             callGeminiAPI(imageDataBase64);
         }
@@ -742,7 +779,7 @@ Do not include any text outside the JSON object, no conversational introductions
                     body: JSON.stringify(requestBody)
                 });
 
-                loadingIndicatorDiv.style.display = 'none';
+                if(loadingIndicatorDiv) loadingIndicatorDiv.style.display = 'none';
 
                 if (!response.ok) {
                     const errorBody = await response.json().catch(() => response.text());
@@ -788,10 +825,9 @@ Do not include any text outside the JSON object, no conversational introductions
 
                 if (nutritionInfo && nutritionInfo.food_items && nutritionInfo.food_items.length > 0) {
                     const totalCaloriesFromResponse = nutritionInfo.total_estimated_calories_all_items;
-                    const firstItemDetails = nutritionInfo.food_items[0]; // For display purposes
+                    const firstItemDetails = nutritionInfo.food_items[0];
 
                     if (typeof totalCaloriesFromResponse === 'number' && totalCaloriesFromResponse >= 0) {
-                        // Pass the first item's details to addCalories, which will then call displayLastScannedNutrients
                         addCalories(totalCaloriesFromResponse, firstItemDetails); 
                         if (totalCaloriesFromResponse === 0 && nutritionInfo.food_items.length > 0) {
                             alert("AI identified food items but estimated 0 total calories. This has been logged.");
@@ -802,19 +838,20 @@ Do not include any text outside the JSON object, no conversational introductions
 
                 } else if (nutritionInfo && nutritionInfo.food_items && nutritionInfo.food_items.length === 0) {
                      displayGeminiError("AI analyzed the image but could not identify any food items or estimate calories.");
-                     lastScannedNutrientsDiv.style.display = 'none'; // Hide if no food found
+                     if(lastScannedNutrientsDiv) lastScannedNutrientsDiv.style.display = 'none';
                 } else {
                     displayGeminiError("AI could not process the image or returned an invalid response format.");
                 }
 
             } catch (error) {
-                loadingIndicatorDiv.style.display = 'none';
+                if(loadingIndicatorDiv) loadingIndicatorDiv.style.display = 'none';
                 console.error('Error calling or processing Gemini API response:', error);
                 displayGeminiError(`Network error or problem with API call: ${error.message}. Check console for details.`);
             }
         }
 
         function displayGeminiError(message) {
+            if (!geminiErrorP) return;
             geminiErrorP.textContent = message;
             geminiErrorP.style.display = 'block';
             setTimeout(() => {
