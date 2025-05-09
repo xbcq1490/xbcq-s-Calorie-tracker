@@ -86,12 +86,11 @@
             padding: 10px;
         }
 
-        #apiKeySetup h2, #mainApp h3, #mainApp h4 { /* Removed h2 for "Daily Calorie Intake" */
+        #apiKeySetup h2, #mainApp h3, #mainApp h4 { 
             color: var(--primary-yellow);
         }
 
-        #apiKeySetup input[type="password"], 
-        #targetCaloriesInput {
+        #apiKeySetup input[type="password"] { /* Specific to API key input */
             width: calc(100% - 26px);
             padding: 12px;
             margin-bottom: 15px;
@@ -99,15 +98,32 @@
             border-radius: var(--global-border-radius);
             font-size: 16px;
             box-sizing: border-box;
-            background-color: var(--code-bg); /* Using code-bg for inputs */
+            background-color: var(--code-bg); 
             color: var(--text-color);
             font-family: 'Poppins', sans-serif;
         }
-        #apiKeySetup input[type="password"]:focus, 
-        #targetCaloriesInput:focus {
+        #apiKeySetup input[type="password"]:focus {
             border-color: var(--primary-yellow);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3); /* primary-yellow with alpha */
+            box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3); 
+        }
+        
+        input[type="number"] { /* General number input styling */
+            padding: 12px;
+            margin-bottom: 0; /* Adjusted for flex layout */
+            border: 1px solid var(--border-color);
+            border-radius: var(--global-border-radius);
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: var(--code-bg); 
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            max-width: 150px; /* Control width of target input */
+        }
+         input[type="number"]:focus {
+            border-color: var(--primary-yellow);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3); 
         }
 
 
@@ -119,25 +135,34 @@
             border-radius: var(--global-border-radius);
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
         }
         button:active {
             transform: translateY(1px);
         }
 
-        /* Primary buttons */
-        #saveApiKeyButton, #scanButton, #setTargetButton {
+        /* Primary action buttons (yellow background) */
+        #saveApiKeyButton, #scanButton {
             background-color: var(--primary-yellow);
             color: var(--button-text);
             font-weight: bold;
         }
-        #saveApiKeyButton:hover, #scanButton:hover, #setTargetButton:hover {
+        #saveApiKeyButton:hover, #scanButton:hover {
             background-color: var(--primary-yellow-darker);
             box-shadow: 0 2px 8px rgba(0,0,0, 0.15);
         }
+        /* Set target button - specific style if needed, or default to this */
+        #setTargetButton {
+             background-color: var(--primary-yellow);
+             color: var(--button-text);
+             font-weight: bold;
+        }
+        #setTargetButton:hover {
+             background-color: var(--primary-yellow-darker);
+        }
 
 
-        #controls {
+        #controls { /* For scan button container */
             margin-top: 30px;
             margin-bottom: 30px;
         }
@@ -155,13 +180,13 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 25px;
-            margin-top: 10px; /* Added margin after removing h2 */
+            margin-top: 10px; 
         }
         .progress-gauge {
             width: 180px; 
             height: 180px;
             border-radius: 50%;
-            background: var(--progress-track-color); /* Fallback, will be overridden by conic-gradient */
+            background: var(--progress-track-color); 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -169,10 +194,10 @@
             margin-bottom: 15px;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
         }
-        .progress-gauge::before { /* Inner circle for doughnut effect */
+        .progress-gauge::before { 
             content: '';
             position: absolute;
-            width: calc(100% - 36px); /* Ring thickness of 18px */
+            width: calc(100% - 36px); 
             height: calc(100% - 36px);
             background: var(--progress-background-color); 
             border-radius: 50%;
@@ -190,7 +215,7 @@
             color: var(--primary-yellow);
             font-weight: bold;
             display: block; 
-            font-size: 2.2em; /* Larger calorie number */
+            font-size: 2.2em; 
         }
          .progress-gauge-value .kcal-unit {
             font-size: 0.7em;
@@ -211,6 +236,7 @@
             padding: 15px;
             border-radius: var(--global-border-radius);
             margin-top: 20px;
+            margin-bottom: 20px; /* Added margin */
             text-align: left;
             border: 1px solid var(--markdown-border);
         }
@@ -236,16 +262,17 @@
             list-style-type: none;
             padding: 0;
             text-align: left;
-            max-height: 200px;
+            max-height: 180px; /* Adjusted height */
             overflow-y: auto;
             border: 1px solid var(--markdown-border);
             border-radius: var(--global-border-radius);
             padding: 10px;
             background-color: var(--markdown-bg);
+            margin-bottom: 25px; /* Added margin */
         }
 
         #foodLog li {
-            background-color: var(--code-bg); /* Using code-bg for log items */
+            background-color: var(--code-bg); 
             padding: 10px 12px;
             margin-bottom: 8px;
             border-radius: calc(var(--global-border-radius) - 4px);
@@ -281,10 +308,46 @@
             margin-top: 15px;
             font-weight: 500; 
             color: var(--error-color); 
-            background-color: rgba(239, 83, 80, 0.1); /* Error color with alpha */
+            background-color: rgba(239, 83, 80, 0.1); 
             padding: 10px;
             border-radius: var(--global-border-radius);
             border: 1px solid var(--error-color);
+        }
+
+        /* App Footer Controls */
+        #appFooterControls {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .target-setter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+         .target-setter-group input[type="number"] {
+            flex-grow: 1; /* Allow input to take some space */
+            max-width: 180px;
+         }
+
+
+        #resetProgressButton {
+            background-color: var(--secondary-bg);
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+            width: 80%;
+            max-width: 320px;
+        }
+        #resetProgressButton:hover {
+            background-color: rgba(239, 83, 80, 0.1); /* error color with alpha */
+            color: var(--error-color);
+            border-color: var(--error-color);
         }
         
         /* Camera View Styles */
@@ -311,7 +374,7 @@
         
         #cameraControls {
             position: absolute;
-            bottom: 50px; /* Moved further up */
+            bottom: 60px; /* Moved slightly more to the top */
             left: 50%;
             transform: translateX(-50%);
             width: auto; 
@@ -319,7 +382,7 @@
             gap: 20px; 
             padding: 12px;
             background-color: rgba(0, 0, 0, 0.65); 
-            border-radius: calc(var(--global-border-radius) + 4px); /* Slightly larger radius */
+            border-radius: calc(var(--global-border-radius) + 4px); 
             z-index: 1001; 
             box-shadow: 0 0 15px rgba(0,0,0,0.3);
         }
@@ -370,10 +433,6 @@
                 <div class="progress-gauge-target">Target: <span id="targetCaloriesDisplay">2000</span> kcal</div>
             </div>
 
-            <div> <input type="number" id="targetCaloriesInput" value="2000" placeholder="Set Target (e.g., 2000)">
-                <button id="setTargetButton">Set Target</button>
-            </div>
-
             <div id="lastScannedNutrients" style="display: none;">
                 <h4>Last Scanned Item Details:</h4>
                 <p id="nutrientFoodName"><strong>Food:</strong> <span>N/A</span></p>
@@ -397,6 +456,14 @@
                 <ul id="foodLog">
                     </ul>
             </div>
+
+            <div id="appFooterControls">
+                <div class="target-setter-group">
+                    <input type="number" id="targetCaloriesInput" value="2000" placeholder="Set Target kcal">
+                    <button id="setTargetButton">Set Target</button>
+                </div>
+                <button id="resetProgressButton">Reset Daily Progress</button>
+            </div>
         </div>
 
         <div id="cameraView" style="display: none;">
@@ -411,13 +478,12 @@
 
     <script>
         // Constants
-        const API_KEY_STORAGE_KEY = 'xbcqGeminiCalorieTrackerApiKey_v2'; // Updated key for new structure
+        const API_KEY_STORAGE_KEY = 'xbcqGeminiCalorieTrackerApiKey_v3'; // Updated key
         const GEMINI_API_URL_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=';
 
         // DOM Elements
         let apiKeySetupDiv, mainAppDiv, apiKeyInput, saveApiKeyButton, apiKeyErrorP;
-        // let calorieGaugeSvg; // Removed
-        let targetCaloriesInput, setTargetButton;
+        let targetCaloriesInput, setTargetButton, resetProgressButton; // Added resetProgressButton
         let scanButton, cameraViewDiv, cameraFeedVideo, captureButton, cancelCameraButton, photoCanvas, cameraControlsDiv;
         let foodLogUl, loadingIndicatorDiv, geminiErrorP, logSectionDiv;
         let lastScannedNutrientsDiv, nutrientFoodNameSpan, nutrientWeightSpan, nutrientCarbsSpan, nutrientProteinSpan;
@@ -439,13 +505,13 @@
             saveApiKeyButton = document.getElementById('saveApiKeyButton');
             apiKeyErrorP = document.getElementById('apiKeyError');
 
-            // calorieGaugeSvg = document.getElementById('calorieGauge'); // Removed
             progressGaugeDiv = document.querySelector('.progress-gauge');
             currentCaloriesDisplaySpan = document.getElementById('currentCaloriesDisplay');
             targetCaloriesDisplaySpan = document.getElementById('targetCaloriesDisplay');
 
             targetCaloriesInput = document.getElementById('targetCaloriesInput');
             setTargetButton = document.getElementById('setTargetButton');
+            resetProgressButton = document.getElementById('resetProgressButton'); // Assign reset button
             
             scanButton = document.getElementById('scanButton');
             cameraViewDiv = document.getElementById('cameraView');
@@ -473,6 +539,8 @@
             captureButton.addEventListener('click', captureImageHandler);
             cancelCameraButton.addEventListener('click', closeCameraHandler);
             setTargetButton.addEventListener('click', updateTargetCaloriesHandler);
+            resetProgressButton.addEventListener('click', resetDailyProgressHandler); // Add listener for reset
+
 
             loadData();
             checkApiKey();
@@ -505,9 +573,9 @@
         }
 
         function initializeMainApp() {
-            updateCalorieDisplay(); // This will now call updateCSSGauge
+            updateCalorieDisplay(); 
             updateFoodLog();
-            logSectionDiv.style.display = foodHistory.length > 0 ? 'block' : 'none';
+            if(logSectionDiv) logSectionDiv.style.display = foodHistory.length > 0 ? 'block' : 'none';
             const lastScanned = JSON.parse(localStorage.getItem('lastFullScannedItem'));
             if (lastScanned) {
                 displayLastScannedNutrients(lastScanned, false); 
@@ -526,34 +594,49 @@
                 alert("Please enter a valid target calorie amount (e.g., between 1 and 50000).");
             }
         }
+        
+        function resetDailyProgressHandler() {
+            if (confirm("Are you sure you want to reset all daily progress? This action cannot be undone.")) {
+                currentCalories = 0;
+                foodHistory = [];
+                localStorage.removeItem('lastFullScannedItem');
+                
+                // Clear displayed nutrients
+                if (nutrientFoodNameSpan) nutrientFoodNameSpan.textContent = 'N/A';
+                if (nutrientWeightSpan) nutrientWeightSpan.textContent = 'N/A';
+                if (nutrientCarbsSpan) nutrientCarbsSpan.textContent = 'N/A';
+                if (nutrientProteinSpan) nutrientProteinSpan.textContent = 'N/A';
+                if (lastScannedNutrientsDiv) lastScannedNutrientsDiv.style.display = 'none';
+
+                saveData(); // This will save the zeroed out calories and empty history
+                updateCalorieDisplay();
+                updateFoodLog();
+                 if(logSectionDiv) logSectionDiv.style.display = 'none'; // Hide log section explicitly
+            }
+        }
+
 
         function updateCalorieDisplay() {
-            targetCaloriesInput.value = targetCalories; // Keep input in sync
+            if (targetCaloriesInput) targetCaloriesInput.value = targetCalories; 
             updateCSSGauge(currentCalories, targetCalories);
         }
 
         function updateCSSGauge(current, max) {
             let percentage = 0;
             if (max > 0) {
-                 // Allow visual overflow slightly for the progress bar color, but cap numerical percentage at 100 for aria
-                percentage = (current / max) * 100;
+                 percentage = (current / max) * 100;
             }
             
-            const displayPercentage = Math.min(percentage, 100); // For conic-gradient, don't exceed 100% visually in one color
-            // For aria-valuenow, we can use the actual percentage if we want to show overage, or cap it.
-            // Here, we cap it to 100 for standard progress bar behavior.
+            const displayPercentage = Math.min(percentage, 100); 
             const ariaPercentage = Math.round(Math.min(percentage, 100));
 
 
             if (progressGaugeDiv) {
                 let progressColor = 'var(--primary-yellow)';
-                if (current > max) { // If over target
-                    progressColor = 'var(--error-color)'; // Use error color if over target
+                if (current > max && max > 0) { 
+                    progressColor = 'var(--error-color)'; 
                 }
-                // Cap the visual fill at 100% for the primary color, then fill with the 'over' color if needed
-                // This logic makes the conic-gradient show up to 100% in primary, then change color if over.
-                // For simplicity, just change the color if over, and the conic-gradient percentage handles the fill amount.
-                progressGaugeDiv.style.background = `conic-gradient(${progressColor} ${displayPercentage}%, var(--progress-track-color) 0%)`;
+                progressGaugeDiv.style.background = `conic-gradient(${progressColor} ${percentage}%, var(--progress-track-color) 0%)`;
                 progressGaugeDiv.setAttribute('aria-valuenow', ariaPercentage);
             }
             if (currentCaloriesDisplaySpan) {
@@ -566,7 +649,7 @@
 
 
         function displayLastScannedNutrients(item, isNewScan = true) {
-            if (!item || !lastScannedNutrientsDiv) { // Added check for lastScannedNutrientsDiv
+            if (!item || !lastScannedNutrientsDiv) { 
                 if (lastScannedNutrientsDiv) lastScannedNutrientsDiv.style.display = 'none';
                 return;
             }
@@ -599,7 +682,7 @@
             saveData();
             updateCalorieDisplay();
             updateFoodLog();
-            logSectionDiv.style.display = 'block';
+            if(logSectionDiv) logSectionDiv.style.display = 'block';
 
             if (foodItemDetails && foodItemDetails.name) { 
                 displayLastScannedNutrients(foodItemDetails);
